@@ -118,13 +118,6 @@ public class GameController {
         guiHandler.wonGame();
     }
 
-    /*
-    If user clicks the quit button, this method is called. Kills program.
-     */
-    public void quitGame() {
-
-    }
-
     public void printGame() {
         System.out.println(modelManager);
     }

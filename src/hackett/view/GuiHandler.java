@@ -81,7 +81,7 @@ public class GuiHandler implements Runnable {
                 break;
         }
         initPanelGameComps();
-        this.gameController.printGame();
+        //this.gameController.printGame();
     }
 
     public void wonGame() {
@@ -131,10 +131,6 @@ public class GuiHandler implements Runnable {
         lostGame = true;
     }
 
-    private void quitGame() {
-        this.frame.dispose();
-        gameController.quitGame();
-    }
 
     /*
     Called once startGame button has been pressed. Create a menu w beginner, intermediate, expert. Once chosen,
@@ -159,7 +155,7 @@ public class GuiHandler implements Runnable {
         //need to overwrite validation to keep visible.
         this.container.validate();
 
-        this.gameController.printGame();
+        //this.gameController.printGame();
     }
 
     /*
@@ -167,7 +163,7 @@ public class GuiHandler implements Runnable {
         JFrame frame, JPanel container, panelGame, panelStatus, panelOptions
             panelGame -> NUM_ROW x NUM_COL array of JButtons
             panelStatus -> smiley face, mines left, timer
-            panelOptions -> start/restart/quit buttons.
+            panelOptions -> start buttons.
      */
     @Override
     public void run() {
@@ -218,7 +214,6 @@ public class GuiHandler implements Runnable {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 Space current = board[i][j];
-                System.out.println(current.getNeighborMines());
                 current.addActionListener(e -> {
                     current.setEnabled(false);
                     revealSpace(current);
@@ -239,16 +234,11 @@ public class GuiHandler implements Runnable {
     }
 
     private void initPanelOptionComps() {
-        JButton startGame, quitGame;
+        JButton startGame;
 
-        startGame = new JButton("START GAME");
+        startGame = new JButton("START NEW GAME");
         startGame.addActionListener(e -> startGame());
         panelOptions.add(startGame);
-
-        quitGame = new JButton("QUIT GAME");
-        quitGame.addActionListener(e -> quitGame());
-        panelOptions.add(quitGame);
-
         this.panelOptions.setVisible(true);
     }
 
