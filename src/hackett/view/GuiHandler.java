@@ -20,9 +20,13 @@ public class GuiHandler implements Runnable {
     private Space[][] board;
     private Difficulty difficulty;
 
+    private boolean firstMove;
+
+    private boolean lostGame = false;
+
     //GUI Constants
-    private static final int WIDTH = 512;
-    private static final int HEIGHT = 512;
+    private static final int WIDTH = 1024;
+    private static final int HEIGHT = 1024;
     private static final Dimension DIM_CONTAINER = new Dimension(WIDTH, HEIGHT);
     private static final Dimension DIM_PANEL_GAME = new Dimension(WIDTH * 3 / 4, HEIGHT * 3 / 4);
     private static final Dimension DIM_PANEL_STATUS = new Dimension (WIDTH / 8, HEIGHT / 8);
@@ -44,12 +48,19 @@ public class GuiHandler implements Runnable {
 
     private GuiHandler(GameController gameController) {
         this.gameController = gameController;
+        this.firstMove = true;
     }
 
     /*
     First, chooseDifficulty(). Then, set board to gc's start game.
      */
     private void startGame() {
+
+        this.firstMove = true;
+
+        frame.dispose();
+        run();
+
         this.difficulty = chooseDifficulty();
         this.board = gameController.startGame(difficulty);
         switch (difficulty) {
@@ -72,21 +83,56 @@ public class GuiHandler implements Runnable {
         initPanelGameComps();
         this.gameController.printGame();
     }
-    private void restartGame() {
-        frame.dispose();
-        //frame.setVisible(false);
-        run();
-        startGame();
-//            this.container.remove(panelGame);
-//            this.container.remove(panelStatus);
-//            this.container.remove(panelOptions);
-//            this.container = null;
-//
-//            this.board = null;
-//            this.board = gameController.startGame(difficulty);
-//            recreate();
+
+    public void wonGame() {
+        JFrame frameWonGame = new JFrame(":)");
+        JPanel containerWonGame = new JPanel();
+        containerWonGame.setPreferredSize(new Dimension(500, 200));
+        JLabel lostLabel = new JLabel();
+        lostLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 48));
+        lostLabel.setForeground(Color.WHITE);
+        lostLabel.setText("Way to go!");
+        containerWonGame.add(lostLabel, BorderLayout.CENTER);
+        containerWonGame.setBackground(new Color(0xffcce3));
+        this.container.setVisible(true);
+        frameWonGame.add(containerWonGame);
+        //frameLostGame.setPreferredSize(new Dimension(500, 500));
+        frameWonGame.pack();
+        frameWonGame.setVisible(true);
+
+        frameWonGame.repaint();
+        containerWonGame.validate();
     }
+
+    private void loseGameMessage() {
+        JFrame frameLostGame = new JFrame(":(");
+        JPanel containerLostGame = new JPanel();
+        containerLostGame.setPreferredSize(new Dimension(500, 200));
+        JLabel lostLabel = new JLabel();
+        lostLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 48));
+        lostLabel.setForeground(Color.WHITE);
+        lostLabel.setText("This ain't it chief");
+        containerLostGame.add(lostLabel, BorderLayout.CENTER);
+        containerLostGame.setBackground(new Color(0xffcce3));
+        this.container.setVisible(true);
+        frameLostGame.add(containerLostGame);
+        //frameLostGame.setPreferredSize(new Dimension(500, 500));
+        frameLostGame.pack();
+        frameLostGame.setVisible(true);
+
+        frameLostGame.repaint();
+        containerLostGame.validate();
+    }
+
+    public void loseGame() {
+        if (!lostGame) {
+            loseGameMessage();
+        }
+        lostGame = true;
+    }
+
     private void quitGame() {
+        this.frame.dispose();
         gameController.quitGame();
     }
 
@@ -96,7 +142,7 @@ public class GuiHandler implements Runnable {
      */
     private Difficulty chooseDifficulty() {
         //TODO : Implement.
-        return Difficulty.BEGINNER;
+        return Difficulty.INTERMEDIATE;
     }
 
     /*
@@ -104,11 +150,16 @@ public class GuiHandler implements Runnable {
     all model managing. Then redraw everything.
      */
     private void revealSpace(Space space) {
-        gameController.revealSpace(space);
+        gameController.revealSpace(space, firstMove, false);
+        if (firstMove) {
+            firstMove = false;
+        }
         this.frame.repaint();
 
         //need to overwrite validation to keep visible.
         this.container.validate();
+
+        this.gameController.printGame();
     }
 
     /*
@@ -167,6 +218,7 @@ public class GuiHandler implements Runnable {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 Space current = board[i][j];
+                System.out.println(current.getNeighborMines());
                 current.addActionListener(e -> {
                     current.setEnabled(false);
                     revealSpace(current);
@@ -187,15 +239,11 @@ public class GuiHandler implements Runnable {
     }
 
     private void initPanelOptionComps() {
-        JButton startGame, restartGame, quitGame;
+        JButton startGame, quitGame;
 
         startGame = new JButton("START GAME");
         startGame.addActionListener(e -> startGame());
         panelOptions.add(startGame);
-
-        restartGame = new JButton("RESTART GAME");
-        restartGame.addActionListener(e -> restartGame());
-        panelOptions.add(restartGame);
 
         quitGame = new JButton("QUIT GAME");
         quitGame.addActionListener(e -> quitGame());

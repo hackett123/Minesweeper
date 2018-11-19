@@ -40,12 +40,28 @@ public class GameController {
         SwingUtilities.invokeLater(guiHandler = GuiHandler.getInstance(this));
     }
 
+    public void loseGame() {
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                revealSpace(board[i][j], false, true);
+            }
+        }
+
+        this.hasLost = true;
+        guiHandler.loseGame();
+    }
+
     /*
     Given a space from the guiHandler, pass it to the modelManager. modelManager will modify space and all other
     relevant spaces' states. Once done, the guiHandler will redraw the grid based upon the states of each mine.
      */
-    public void revealSpace(Space space) {
-
+    public void revealSpace(Space space, boolean firstMove, boolean hasLost) {
+        if (firstMove) {
+            modelManager.fillMines(space);
+            modelManager.countNeighbors();
+        }
+        modelManager.revealSpace(space, hasLost);
     }
 
 
@@ -70,7 +86,7 @@ public class GameController {
             case EXPERT :
                 NUM_MINES = 99;
                 NUM_ROWS = 16;
-                NUM_COLS = 32;
+                NUM_COLS = 30;
                 break;
         }
         System.out.println("Difficulty selected : " + difficulty);
@@ -86,7 +102,7 @@ public class GameController {
     Reveal all spaces. Use hasWon or hasLost to determine appropriate message to user.
      */
     public void endGame() {
-
+        //somehow need to kill program.
     }
 
     /*
@@ -96,6 +112,10 @@ public class GameController {
         //TODO : IMPLEMENT
 
         return null;
+    }
+
+    public void wonGame() {
+        guiHandler.wonGame();
     }
 
     /*
