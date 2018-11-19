@@ -1,11 +1,39 @@
 package hackett.view;
 
 import hackett.controller.GameController;
+import hackett.model.Difficulty;
+import hackett.model.Space;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GuiHandler implements Runnable {
 
     private static GuiHandler instance;
     private GameController gameController;
+
+    private static int NUM_ROWS, NUM_COLS, NUM_MINES;
+
+    private Space[][] board;
+    private Difficulty difficulty;
+
+    //GUI Constants
+    private static final int WIDTH = 512;
+    private static final int HEIGHT = 512;
+    private static final Dimension DIM_CONTAINER = new Dimension(WIDTH, HEIGHT);
+    private static final Dimension DIM_PANEL_GAME = new Dimension(WIDTH * 3 / 4, HEIGHT * 3 / 4);
+    private static final Dimension DIM_PANEL_STATUS = new Dimension (WIDTH / 8, HEIGHT / 8);
+    private static final Dimension DIM_PANEL_OPTIONS = new Dimension (WIDTH / 8, HEIGHT / 8);
+    private final Color COLOR_BACKGROUND = new Color(0x252f3f);
+
+    /*
+    GUI Component for frame. rest are declared locally.
+     */
+    private JFrame frame;
+    private JPanel container, panelGame, panelStatus, panelOptions;
 
     public static GuiHandler getInstance(GameController gameController) {
         if (instance == null) {
@@ -18,9 +46,188 @@ public class GuiHandler implements Runnable {
         this.gameController = gameController;
     }
 
+    /*
+    First, chooseDifficulty(). Then, set board to gc's start game.
+     */
+    private void startGame() {
+        this.difficulty = chooseDifficulty();
+        this.board = gameController.startGame(difficulty);
+        switch (difficulty) {
+            case BEGINNER :
+                NUM_MINES = 10;
+                NUM_ROWS = 9;
+                NUM_COLS = 9;
+                break;
+            case INTERMEDIATE :
+                NUM_MINES = 40;
+                NUM_ROWS = 16;
+                NUM_COLS = 16;
+                break;
+            case EXPERT :
+                NUM_MINES = 99;
+                NUM_ROWS = 16;
+                NUM_COLS = 32;
+                break;
+        }
+        initPanelGameComps();
+        this.gameController.printGame();
+    }
+    private void restartGame() {
+        frame.dispose();
+        //frame.setVisible(false);
+        run();
+        startGame();
+//            this.container.remove(panelGame);
+//            this.container.remove(panelStatus);
+//            this.container.remove(panelOptions);
+//            this.container = null;
+//
+//            this.board = null;
+//            this.board = gameController.startGame(difficulty);
+//            recreate();
+    }
+    private void quitGame() {
+        gameController.quitGame();
+    }
+
+    /*
+    Called once startGame button has been pressed. Create a menu w beginner, intermediate, expert. Once chosen,
+    send output back to startGame within gameController.
+     */
+    private Difficulty chooseDifficulty() {
+        //TODO : Implement.
+        return Difficulty.BEGINNER;
+    }
+
+    /*
+    revealSpace is called by the action listeners for our panelGame buttons. Calls upon gameController method to do
+    all model managing. Then redraw everything.
+     */
+    private void revealSpace(Space space) {
+        gameController.revealSpace(space);
+        this.frame.repaint();
+
+        //need to overwrite validation to keep visible.
+        this.container.validate();
+    }
+
+    /*
+    Initiate and instantiate all JComponents.
+        JFrame frame, JPanel container, panelGame, panelStatus, panelOptions
+            panelGame -> NUM_ROW x NUM_COL array of JButtons
+            panelStatus -> smiley face, mines left, timer
+            panelOptions -> start/restart/quit buttons.
+     */
     @Override
     public void run() {
         //TODO : implement graphics
+
+        this.frame = new JFrame("Hackett's Minesweeper");
+
+        recreate();
+
+        this.frame.setResizable(true);
+        //this.frame.setPreferredSize(DIM_CONTAINER);
+        this.frame.pack();
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
+    }
+
+    private void recreate() {
+        initPanels();
+        initPanelOptionComps();
+        initPanelStatusComps();
+        assembleComps();
+    }
+
+    private void initPanels() {
+        this.container = new JPanel();
+        this.container.setPreferredSize(DIM_CONTAINER);
+        this.container.setBackground(COLOR_BACKGROUND);
+
+        this.panelGame = new JPanel();
+        this.panelGame.setPreferredSize(DIM_PANEL_GAME);
+        this.panelGame.setBackground(COLOR_BACKGROUND);
+
+        this.panelOptions = new JPanel();
+        this.panelOptions.setPreferredSize(DIM_PANEL_OPTIONS);
+        this.panelOptions.setBackground(COLOR_BACKGROUND);
+
+        this.panelStatus = new JPanel();
+        this.panelStatus.setPreferredSize(DIM_PANEL_STATUS);
+        this.panelStatus.setBackground(COLOR_BACKGROUND);
+    }
+
+    private void initPanelGameComps() {
+
+        this.panelGame.setLayout(new GridLayout(NUM_ROWS, NUM_COLS));
+
+        //space buttons already instantiated.
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Space current = board[i][j];
+                current.addActionListener(e -> {
+                    current.setEnabled(false);
+                    revealSpace(current);
+                    current.setBackground(Space.COLOR_REVEALED_SPACE);
+                    current.setOpaque(true);
+                    current.setBorderPainted(true);
+                });
+
+                this.panelGame.add(current, i, j);
+            }
+        }
+
+        this.frame.repaint();
+
+        //need to overwrite validation to keep visible.
+        this.container.validate();
+
+    }
+
+    private void initPanelOptionComps() {
+        JButton startGame, restartGame, quitGame;
+
+        startGame = new JButton("START GAME");
+        startGame.addActionListener(e -> startGame());
+        panelOptions.add(startGame);
+
+        restartGame = new JButton("RESTART GAME");
+        restartGame.addActionListener(e -> restartGame());
+        panelOptions.add(restartGame);
+
+        quitGame = new JButton("QUIT GAME");
+        quitGame.addActionListener(e -> quitGame());
+        panelOptions.add(quitGame);
+
+        this.panelOptions.setVisible(true);
+    }
+
+    private void initPanelStatusComps() {
+
+        JTextField minesRemaining = new JTextField("" + NUM_MINES);
+        this.panelStatus.add(minesRemaining);
+
+        //change to image later.
+        JLabel smiley = new JLabel("SMILEY");
+        this.panelStatus.add(smiley);
+
+        //figure this out later
+        JTextField timer = new JTextField("TIMER GOES HERE");
+        this.panelStatus.add(timer);
+        this.panelStatus.add(timer);
+
+        this.panelStatus.setVisible(true);
+    }
+
+    private void assembleComps() {
+        this.container.setLayout(new BorderLayout());
+        this.container.add(panelStatus, BorderLayout.NORTH);
+        this.container.add(panelGame, BorderLayout.CENTER);
+        this.container.add(panelOptions, BorderLayout.SOUTH);
+        this.container.setVisible(true);
+        this.frame.add(container);
     }
 
 }

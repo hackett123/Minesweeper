@@ -1,0 +1,105 @@
+Final Project : MINESWEEPER
+
+Gameplay :
+
+Single player must sweep a minefield and clear all spaces which are not mines. Each space is either blank, a number, or a mine, each of which are hidden at first and are revealed by clicking on it.
+
+Clicking on a mine causes the player to lose the game. The number spaces provide hints as to where mines are. Each number space dictates the number of mines to the left, right, up, down, or diagonal of the space. Max value is 8, min is 1 (otherwise blank).
+
+Clicking on a space which has a value of zero (blank space) should reveal all of its neighbors. If any of those neighbors have a value of zero, they should similarly expand.
+
+Various difficulty modes which vary board sizes and mine counts.
+
+Beginner : 10 mines, 9x9 board
+Intermediate : 40 mines, 16x16 board
+Expert : 99 mines, 16x30
+
+Mines are placed randomly, first clicked square cannot hold a mine.
+
+Start a new game by hitting the smiley face in the middle button.
+
+Left box = mines left to find (flag count changes this)
+
+Right box = timer, incrementing in seconds, maxes out at 999.
+
+To win : Flag all mines correctly and never click a mine.
+To lose : Click a mine at any point.
+
+Design :
+
+GameController
+
+Fields :
+    private static GameController instance;
+    private ModelManager modelManager;
+    private GuiHandler guiHandler;
+    private boolean hasWon, hasLost;
+        if either become true, game is over.
+    private static NUM_MINES, NUM_ROWS, NUM_COLS.
+        passed to model manager as well as guiH once difficulty chosen.
+Methods :
+    getInstance()
+    private constructor
+
+    void startGame()
+        - Prompt difficulty menu.
+        - Output of that function (chooseDifficulty) -> initiate NUM_MINES, NUM_ROWS, NUM_COLS -> send to ModelManager -> instantiate board and all spaces -> send to GUI -> draw.
+    void endGame()
+        - Reveal all spaces. Called upon if a mine is found or if the user clicks the end game button.
+    void revealSpace(Space space)
+        - Receives Space button from guiHandler. Passes space to modelManager. modelManager does its thing and updates the squares isHidden and all other relevant squares. tells gc it finishes. gc tells gh that it finished. gh redraws.
+    void restartGame()
+        -prompt startGame();
+    void quitGame()
+        -kill program.
+
+GuiHandler
+
+Fields :
+    GameController gameController
+    GuiHandler instance
+    all GUI components -> frame, container, panelBoard, panelStatus, panelOptions. panelBoard holds our grid of space objects. panelStatus holds three JComponents - a text field for number of bombs left, timer for how much time has elapsed, and a smiley face. panelOptions has startGame, resetGame, quitGame buttons.
+    all Dimensions for panels.
+    all colors for spaces.
+
+Methods :
+    Override run() -> build all GUI components.
+        Init all action listeners.
+        Once done, wait for start game button to be pressed.
+            Once a space is pressed, disable clicking on it.
+
+    chooseDifficulty();
+        Creates a menu prompt for beginner, intermediate, expert.
+
+    revealSpace(Space space);
+        Called once an enabled button on our board has been pressed. Calls GC method of the same name. After that, it should redraw the board.
+
+    Override paintComponent(Graphics g);
+        Method called by revealSpace, except for the first time, when startGame calls it. Redraws all gui components.
+
+
+
+ModelManager
+
+Fields :
+    ModelManager instance;
+    GameController gameController;
+    Space[NUM_ROWS][NUM_COLS] board; (initiate sizes once difficulty chosen).
+
+Enum : Difficulty. Just beginner / intermediate / expert. Better to pass around enum than string I guess.
+
+Class : Space, implements JButton. Initially enabled, but do setEnable(false) when it has been clicked.
+
+Fields :
+boolean hasMine -> true means clicking causes game over, false means has value.
+    Q : should mines still have a number? would they include themselves?
+int neighborMines (0-8) -> 0 means no text, 1-8 displays value.
+boolean isHidden -> true means hasn't been pressed. false means we draw the    number (or the mine).
+Image mine -> this is only not null if hasMine.
+    - find an image online and put it in a res folder in the project directory.
+
+Methods :
+    addActionListener() -> if mouse clicked, isHidden becomes false. Three options :
+        1. if (hasMine) -> Game over. Loser message.
+        2. if (neighborMines != 0) -> Reveal number.
+        3. if (neighborMines == 0) -> Reveal neighbors (this can be implemented recursively!)
