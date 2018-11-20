@@ -14,7 +14,7 @@ public class Space extends JButton {
     private boolean hasMine;
     private boolean isHidden;
     private int value;
-    ImageIcon mine;
+    private static ImageIcon mine;
 
     private int x;
     private int y;
@@ -80,17 +80,17 @@ public class Space extends JButton {
         this.neighborMines = -1;
     }
 
-    public ImageIcon makeImageIcon() {
+    public static void makeImageIcon() {
         ImageIcon guiView = null;
         try {
             Image image = ImageIO.read(new File("res/bomb.jpg"));
-            image = image.getScaledInstance(this.getWidth(),this.getHeight(), Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(50,50, Image.SCALE_SMOOTH);
             guiView = new ImageIcon(image);
 
         } catch (IOException ie) {
             System.out.println("Image rendering error");
         }
-        return guiView;
+        mine = guiView;
     }
 
     @Override
@@ -115,8 +115,13 @@ public class Space extends JButton {
             if (this.neighborMines > 0) {
                 this.setText("" + this.neighborMines);
             } else if (this.neighborMines == -1) {
-                this.setIcon(makeImageIcon());
+                if (mine == null) {
+                    makeImageIcon();
+                }
+                this.setIcon(mine);
                 this.setText("");
+                this.setBackground(Color.WHITE);
+                this.setForeground(Color.WHITE);
             } else {
                 this.setText("");
             }

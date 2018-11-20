@@ -28,8 +28,8 @@ public class GuiHandler implements Runnable {
     private boolean lostGame = false;
 
     //GUI Constants
-    private static final int WIDTH = 1024;
-    private static final int HEIGHT = 1024;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 800;
     private static final Dimension DIM_CONTAINER = new Dimension(WIDTH, HEIGHT);
     private static final Dimension DIM_PANEL_GAME = new Dimension(WIDTH * 3 / 4, HEIGHT * 3 / 4);
     private static final Dimension DIM_PANEL_STATUS = new Dimension (WIDTH / 8, HEIGHT / 8);
@@ -296,23 +296,26 @@ public class GuiHandler implements Runnable {
 
     private void initPanelStatusComps() {
 
-        JTextField minesRemaining = new JTextField("MINES REMAINING : " + NUM_MINES);
+        this.panelStatus.setLayout(new GridLayout(1, 3));
+
+        JLabel minesRemaining = new JLabel("MINES REMAINING : " + NUM_MINES);
+        minesRemaining.setForeground(PINK_BACKGROUND);
+        minesRemaining.setFont(new Font(Font.DIALOG, Font.BOLD, 24));
         this.panelStatus.add(minesRemaining);
-
-        //change to image later.
-        JLabel smiley = new JLabel();
-        smiley.setPreferredSize(new Dimension(150, 100));
-
 
         ImageIcon guiView = null;
         try {
             Image image = ImageIO.read(new File("res/110logo.png"));
-            image = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             guiView = new ImageIcon(image);
 
         } catch (IOException ie) {
             System.out.println("Image rendering error");
         }
+
+        JLabel smiley = new JLabel(guiView, JLabel.CENTER);
+        smiley.setPreferredSize(new Dimension(150, 100));
+
 
         smiley.setIcon(guiView);
 
