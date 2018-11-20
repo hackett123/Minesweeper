@@ -83,8 +83,6 @@ public class ModelManager {
 
             if (!hasLost) {
                 UNREVEALED_SPACES--;
-                //System.out.println(UNREVEALED_SPACES + " : " + NUM_MINES);
-
                 if (UNREVEALED_SPACES == NUM_MINES) {
                     gameController.wonGame();
                 }
@@ -153,6 +151,10 @@ public class ModelManager {
                 curr.setNeighborMines(currNeighbors);
             }
         }
+    }
+
+    public void toggleFlag(Space space) {
+        space.toggleFlag();
     }
 
 

@@ -89,11 +89,6 @@ public class GameController {
                 NUM_COLS = 30;
                 break;
         }
-        System.out.println("Difficulty selected : " + difficulty);
-        System.out.println("Num rows : " + NUM_ROWS);
-        System.out.println("Num cols : " + NUM_COLS);
-        System.out.println("Num mines : " + NUM_MINES);
-
         this.board = modelManager.initBoard(NUM_ROWS, NUM_COLS, NUM_MINES);
         return this.board;
     }
@@ -120,6 +115,10 @@ public class GameController {
 
     public void printGame() {
         System.out.println(modelManager);
+    }
+
+    public void toggleFlag(Space space) {
+        modelManager.toggleFlag(space);
     }
 
 }

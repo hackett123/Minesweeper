@@ -13,14 +13,18 @@ public class Space extends JButton {
     private int neighborMines;
     private boolean hasMine;
     private boolean isHidden;
+    private boolean isFlagged;
     private int value;
-    private static ImageIcon mine;
+    private ImageIcon mine;
+    private ImageIcon flag;
 
     private int x;
     private int y;
 
     public static final Color COLOR_HIDDEN_SPACE = new Color(0x8fa0bc);
     public static final Color COLOR_REVEALED_SPACE = new Color(0xbecce2);
+
+    private static int NUM_SPACES;
 
     public Space() {
         super();
@@ -32,11 +36,33 @@ public class Space extends JButton {
         this.setVisible(true);
 
         //-1 for mines
-        neighborMines = 0;
-        value = 0;
-        hasMine = false;
-        isHidden = true;
+        this.neighborMines = 0;
+        this.value = 0;
+        this.hasMine = false;
+        this.isHidden = true;
+        this.isFlagged = false;
         mine = null;
+        NUM_SPACES++;
+    }
+
+    public void toggleFlag() {
+        if (this.isFlagged) {
+            this.unFlag();
+        } else {
+            this.markFlagged();
+        }
+    }
+
+    public boolean isFlagged() {
+        return this.isFlagged;
+    }
+
+    public void markFlagged() {
+        this.isFlagged = true;
+        this.flag = makeImageIcon("/Users/Michael/Desktop/Penn/Fall 2018/TA/CIS110/final_project/res/penn_flag.png");
+    }
+    public void unFlag() {
+        this.isFlagged = false;
     }
 
     public void reveal() {
@@ -80,17 +106,26 @@ public class Space extends JButton {
         this.neighborMines = -1;
     }
 
-    public static void makeImageIcon() {
+    public ImageIcon makeImageIcon(String location) {
         ImageIcon guiView = null;
         try {
-            Image image = ImageIO.read(new File("res/bomb.jpg"));
-            image = image.getScaledInstance(50,50, Image.SCALE_SMOOTH);
+            Image image = ImageIO.read(new File(location));
+
+            int sideLength = 0;
+            if (NUM_SPACES == 81) {
+                sideLength = 40;
+            } else if (NUM_SPACES == 256) {
+                sideLength = 25;
+            } else {
+                sideLength = 10;
+            }
+            image = image.getScaledInstance(sideLength,sideLength, Image.SCALE_SMOOTH);
             guiView = new ImageIcon(image);
 
         } catch (IOException ie) {
-            System.out.println("Image rendering error");
+            System.out.println(ie);
         }
-        mine = guiView;
+        return guiView;
     }
 
     @Override
@@ -109,17 +144,30 @@ public class Space extends JButton {
         if (this.isHidden) {
             this.setBackground(COLOR_HIDDEN_SPACE);
             this.setOpaque(true);
+            if (this.isFlagged) {
+                if (this.flag == null) {
+                    this.flag = makeImageIcon("res/penn_flag.png");
+                }
+                setIcon(this.flag);
+                this.setHorizontalAlignment(SwingConstants.CENTER);
+            } else {
+                setIcon(null);
+            }
         } else {
+            //remove flag first
+            setIcon(null);
+
             this.setBackground(COLOR_REVEALED_SPACE);
             this.setOpaque(true);
             if (this.neighborMines > 0) {
                 this.setText("" + this.neighborMines);
             } else if (this.neighborMines == -1) {
-                if (mine == null) {
-                    makeImageIcon();
+                if (this.mine == null) {
+                    this.mine = makeImageIcon("res/bomb.jpg");
                 }
-                this.setIcon(mine);
-                this.setText("");
+                this.setIcon(this.mine);
+                this.setHorizontalAlignment(SwingConstants.CENTER);
+                setText("");
                 this.setBackground(Color.WHITE);
                 this.setForeground(Color.WHITE);
             } else {

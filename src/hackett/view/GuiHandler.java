@@ -10,6 +10,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,6 +22,8 @@ public class GuiHandler implements Runnable {
 
     private static int NUM_ROWS, NUM_COLS, NUM_MINES;
 
+    private int flagCount;
+
     private Space[][] board;
     private Difficulty difficulty;
 
@@ -28,14 +32,17 @@ public class GuiHandler implements Runnable {
     private boolean lostGame = false;
 
     //GUI Constants
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 800;
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 600;
     private static final Dimension DIM_CONTAINER = new Dimension(WIDTH, HEIGHT);
     private static final Dimension DIM_PANEL_GAME = new Dimension(WIDTH * 3 / 4, HEIGHT * 3 / 4);
     private static final Dimension DIM_PANEL_STATUS = new Dimension (WIDTH / 8, HEIGHT / 8);
     private static final Dimension DIM_PANEL_OPTIONS = new Dimension (WIDTH / 8, HEIGHT / 8);
     private final Color COLOR_BACKGROUND = new Color(0x252f3f);
     private final Color PINK_BACKGROUND = new Color(0xffcce3);
+    private final Font BIG_PINK_FONT = new Font(Font.DIALOG, Font.BOLD, 48);
+    private final Font MEDIUM_PINK_FONT = new Font(Font.DIALOG, Font.BOLD, 24);
+    private final Font SMALL_PINK_FONT = new Font(Font.DIALOG, Font.BOLD, 16);
 
     /*
     GUI Component for frame. rest are declared locally.
@@ -43,7 +50,7 @@ public class GuiHandler implements Runnable {
     private JFrame frame;
     private JPanel container, panelGame, panelStatus, panelOptions;
     JRadioButton beginnerDifficulty, intermediateDifficulty, expertDifficulty;
-    private static JLabel timerLabel;
+    private static JLabel timerLabel, minesRemaining;
     private static Timer timer;
 
     public static GuiHandler getInstance(GameController gameController) {
@@ -56,15 +63,17 @@ public class GuiHandler implements Runnable {
     private GuiHandler(GameController gameController) {
         this.gameController = gameController;
         this.firstMove = true;
+        this.flagCount = 0;
     }
 
     /*
     First, chooseDifficulty(). Then, set board to gc's start game.
      */
     private void startGame() {
-
+        timer.stop();
         this.firstMove = true;
         this.lostGame = false;
+        this.flagCount = 0;
 
         frame.dispose();
         run();
@@ -88,8 +97,11 @@ public class GuiHandler implements Runnable {
                 NUM_COLS = 32;
                 break;
         }
+        this.minesRemaining.setText("MINES REMAINING : " + NUM_MINES);
         initPanelGameComps();
+
         timer.restart();
+
         //this.gameController.printGame();
     }
 
@@ -100,7 +112,7 @@ public class GuiHandler implements Runnable {
         JPanel containerWonGame = new JPanel();
         containerWonGame.setPreferredSize(new Dimension(500, 200));
         JLabel lostLabel = new JLabel();
-        lostLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 48));
+        lostLabel.setFont(BIG_PINK_FONT);
         lostLabel.setForeground(Color.WHITE);
         lostLabel.setText("Way to go!");
         containerWonGame.add(lostLabel, BorderLayout.CENTER);
@@ -119,7 +131,7 @@ public class GuiHandler implements Runnable {
         JPanel containerLostGame = new JPanel();
         containerLostGame.setPreferredSize(new Dimension(500, 200));
         JLabel lostLabel = new JLabel();
-        lostLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 48));
+        lostLabel.setFont(BIG_PINK_FONT);
         lostLabel.setForeground(Color.WHITE);
         lostLabel.setText("This ain't it chief");
         containerLostGame.add(lostLabel, BorderLayout.CENTER);
@@ -231,13 +243,31 @@ public class GuiHandler implements Runnable {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 Space current = board[i][j];
-                current.addActionListener(e -> {
-                    current.setEnabled(false);
-                    revealSpace(current);
-                    current.setBackground(Space.COLOR_REVEALED_SPACE);
-                    current.setOpaque(true);
-                    current.setBorderPainted(true);
-                });
+                current.addMouseListener(new MouseAdapter() {
+                     @Override
+                public void mouseReleased(MouseEvent e) {
+                    super.mouseReleased(e);
+                     if (SwingUtilities.isLeftMouseButton(e)) {
+                         //normal
+                         current.setEnabled(false);
+                         revealSpace(current);
+                         current.setBackground(Space.COLOR_REVEALED_SPACE);
+                         current.setOpaque(true);
+                         current.setBorderPainted(true);
+                     }
+                     if (SwingUtilities.isRightMouseButton(e)) {
+                         gameController.toggleFlag(current);
+                         if (current.isFlagged()) {
+                             flagCount++;
+                         } else {
+                             flagCount--;
+                         }
+                         minesRemaining.setText("MINES REMAINING : " + (NUM_MINES - flagCount));
+                         frame.repaint();
+                         container.validate();
+                     }
+                }
+            });
 
                 this.panelGame.add(current, i, j);
             }
@@ -254,6 +284,7 @@ public class GuiHandler implements Runnable {
         JButton startGame = new JButton("START NEW GAME");
         startGame.addActionListener(e -> startGame());
 
+
         beginnerDifficulty = new JRadioButton();
         intermediateDifficulty = new JRadioButton();
         expertDifficulty = new JRadioButton();
@@ -261,7 +292,7 @@ public class GuiHandler implements Runnable {
 
         for (JRadioButton rb : radiobuttons) {
             rb.setForeground((PINK_BACKGROUND));
-            rb.setFont(new Font(Font.DIALOG, Font.BOLD, 12));
+            rb.setFont(SMALL_PINK_FONT);
         }
 
 
@@ -287,10 +318,19 @@ public class GuiHandler implements Runnable {
         });
 
 
-        panelOptions.add(startGame);
+        panelOptions.setLayout(new GridLayout(2, 3,1, 1));
+
+
         panelOptions.add(beginnerDifficulty);
         panelOptions.add(intermediateDifficulty);
         panelOptions.add(expertDifficulty);
+        panelOptions.add(startGame);
+
+        startGame.setBackground(PINK_BACKGROUND);
+        startGame.setOpaque(true);
+        startGame.setBorderPainted(false);
+        startGame.setFont(SMALL_PINK_FONT);
+
         this.panelOptions.setVisible(true);
     }
 
@@ -298,9 +338,9 @@ public class GuiHandler implements Runnable {
 
         this.panelStatus.setLayout(new GridLayout(1, 3));
 
-        JLabel minesRemaining = new JLabel("MINES REMAINING : " + NUM_MINES);
+        minesRemaining = new JLabel("MINES REMAINING : " + (NUM_MINES - flagCount));
         minesRemaining.setForeground(PINK_BACKGROUND);
-        minesRemaining.setFont(new Font(Font.DIALOG, Font.BOLD, 24));
+        minesRemaining.setFont(SMALL_PINK_FONT);
         this.panelStatus.add(minesRemaining);
 
         ImageIcon guiView = null;
@@ -316,16 +356,16 @@ public class GuiHandler implements Runnable {
         JLabel smiley = new JLabel(guiView, JLabel.CENTER);
         smiley.setPreferredSize(new Dimension(150, 100));
 
-
         smiley.setIcon(guiView);
 
+        smiley.setBackground(PINK_BACKGROUND);
+        smiley.setForeground(PINK_BACKGROUND);
 
         this.panelStatus.add(smiley);
 
-        //figure this out later
-        timerLabel = new JLabel("Time: 0");
+        timerLabel = new JLabel("Time : 0");
         timerLabel.setForeground(PINK_BACKGROUND);
-        timerLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 24));
+        timerLabel.setFont(MEDIUM_PINK_FONT);
         timer = new Timer(1000, new ActionListener() {
             int seconds = 0;
 
