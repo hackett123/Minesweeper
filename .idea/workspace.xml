@@ -2,26 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14d64776-9bd3-4a66-84ee-8226f4669bbb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/res/penn_flag.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/controller/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/final_project/hackett/controller/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/controller/GameControllerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/model/ModelManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/final_project/hackett/model/ModelManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/model/ModelManagerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/model/Space.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/final_project/hackett/model/Space.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/model/SpaceTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandlerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hackett/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hackett/controller/GameControllerTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hackett/model/ModelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/model/ModelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hackett/model/ModelManagerTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hackett/model/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/model/Space.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hackett/model/SpaceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hackett/view/GuiHandlerTest.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GuiHandler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GuiHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hackett/view/GuiHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="301" column="54" lean-forward="true" selection-start-line="301" selection-start-column="54" selection-end-line="301" selection-end-column="54" />
+            <state relative-caret-position="315">
+              <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4683#4684#0" expanded="true" />
@@ -69,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModelManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ModelManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hackett/model/ModelManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="84" column="36" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+            <state relative-caret-position="285">
+              <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
               <folding>
                 <element signature="e#4905#4906#0" expanded="true" />
                 <element signature="e#4929#4930#0" expanded="true" />
@@ -85,10 +67,12 @@
       <file leaf-file-name="Space.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hackett/model/Space.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-889">
-              <caret line="115" column="32" lean-forward="true" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
+            <state relative-caret-position="303">
+              <caret line="48" column="20" lean-forward="true" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1141#1142#0" expanded="true" />
+                <element signature="e#1171#1172#0" expanded="true" />
                 <element signature="e#1060#1061#0" expanded="true" />
                 <element signature="e#1097#1098#0" expanded="true" />
                 <element signature="e#1483#1484#0" expanded="true" />
@@ -146,12 +130,12 @@
       <find>mines</find>
       <find>110</find>
       <find>smiley</find>
-      <find>println</find>
       <find>time</find>
       <find>time</find>
       <find>minesre</find>
       <find>startgame</find>
       <find>grid</find>
+      <find>println</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -168,9 +152,9 @@
         <option value="$PROJECT_DIR$/src/hackett/model/Difficulty.java" />
         <option value="$PROJECT_DIR$/src/hackett/view/Board.java" />
         <option value="$PROJECT_DIR$/src/hackett/controller/GameController.java" />
+        <option value="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" />
         <option value="$PROJECT_DIR$/src/hackett/model/ModelManager.java" />
         <option value="$PROJECT_DIR$/src/hackett/model/Space.java" />
-        <option value="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" />
       </list>
     </option>
   </component>
@@ -440,17 +424,6 @@
     <entry file="file://$PROJECT_DIR$/res/penn_flag.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hackett/model/ModelManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="84" column="36" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
-          <folding>
-            <element signature="e#4905#4906#0" expanded="true" />
-            <element signature="e#4929#4930#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hackett/controller/GameController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
@@ -467,12 +440,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hackett/model/Space.java">
+    <entry file="file://$PROJECT_DIR$/src/hackett/view/GuiHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-889">
-          <caret line="115" column="32" lean-forward="true" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
+        <state relative-caret-position="315">
+          <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4683#4684#0" expanded="true" />
+            <element signature="e#4727#4728#0" expanded="true" />
+            <element signature="e#7533#7718#0" expanded="true" />
+            <element signature="e#7717#7718#0" expanded="true" />
+            <element signature="e#10874#10875#0" expanded="true" />
+            <element signature="e#10947#10948#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hackett/model/Space.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="48" column="20" lean-forward="true" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1141#1142#0" expanded="true" />
+            <element signature="e#1171#1172#0" expanded="true" />
             <element signature="e#1060#1061#0" expanded="true" />
             <element signature="e#1097#1098#0" expanded="true" />
             <element signature="e#1483#1484#0" expanded="true" />
@@ -497,18 +488,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hackett/view/GuiHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/hackett/model/ModelManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="301" column="54" lean-forward="true" selection-start-line="301" selection-start-column="54" selection-end-line="301" selection-end-column="54" />
+        <state relative-caret-position="285">
+          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4683#4684#0" expanded="true" />
-            <element signature="e#4727#4728#0" expanded="true" />
-            <element signature="e#7533#7718#0" expanded="true" />
-            <element signature="e#7717#7718#0" expanded="true" />
-            <element signature="e#10874#10875#0" expanded="true" />
-            <element signature="e#10947#10948#0" expanded="true" />
+            <element signature="e#4905#4906#0" expanded="true" />
+            <element signature="e#4929#4930#0" expanded="true" />
           </folding>
         </state>
       </provider>

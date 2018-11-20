@@ -45,6 +45,10 @@ public class Space extends JButton {
         NUM_SPACES++;
     }
 
+    public static void resetNumSpaces() {
+        NUM_SPACES = 0;
+    }
+
     public void toggleFlag() {
         if (this.isFlagged) {
             this.unFlag();

@@ -29,6 +29,7 @@ public class ModelManager {
         NUM_COLS = numCols;
         NUM_MINES = numMines;
         UNREVEALED_SPACES = NUM_ROWS * NUM_COLS;
+        Space.resetNumSpaces();
 
         if (NUM_MINES == 10) {
             board = new Space[9][9];
