@@ -2,8 +2,11 @@ package hackett.model;
 
 import hackett.view.GuiHandler;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Space extends JButton {
 
@@ -11,7 +14,7 @@ public class Space extends JButton {
     private boolean hasMine;
     private boolean isHidden;
     private int value;
-    Image mine;
+    ImageIcon mine;
 
     private int x;
     private int y;
@@ -77,6 +80,19 @@ public class Space extends JButton {
         this.neighborMines = -1;
     }
 
+    public ImageIcon makeImageIcon() {
+        ImageIcon guiView = null;
+        try {
+            Image image = ImageIO.read(new File("res/bomb.jpg"));
+            image = image.getScaledInstance(this.getWidth(),this.getHeight(), Image.SCALE_SMOOTH);
+            guiView = new ImageIcon(image);
+
+        } catch (IOException ie) {
+            System.out.println("Image rendering error");
+        }
+        return guiView;
+    }
+
     @Override
     public String toString() {
         String out = "";
@@ -98,8 +114,9 @@ public class Space extends JButton {
             this.setOpaque(true);
             if (this.neighborMines > 0) {
                 this.setText("" + this.neighborMines);
-            } else if (this.neighborMines == -1){
-                this.setText("KABOOM");
+            } else if (this.neighborMines == -1) {
+                this.setIcon(makeImageIcon());
+                this.setText("");
             } else {
                 this.setText("");
             }

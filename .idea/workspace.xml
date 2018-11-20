@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14d64776-9bd3-4a66-84ee-8226f4669bbb" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/hackett/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/controller/GameController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/110logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/bomb.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/model/Space.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/final_project/hackett/model/Space.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/final_project/hackett/view/GuiHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hackett/model/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/model/Space.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -14,7 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.40390673">
       <split-first>
         <leaf>
           <file leaf-file-name="Father.java" pinned="false" current-in-tab="false">
@@ -42,8 +48,8 @@
           <file leaf-file-name="ModelManager.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/hackett/model/ModelManager.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-753">
-                  <caret line="37" column="38" lean-forward="true" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+                <state relative-caret-position="210">
+                  <caret line="78" column="23" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
                   <folding>
                     <element signature="e#456#457#0" expanded="true" />
                     <element signature="e#492#493#0" expanded="true" />
@@ -59,10 +65,14 @@
           <file leaf-file-name="GuiHandler.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/hackett/view/GuiHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="336">
-                  <caret line="223" lean-forward="true" selection-start-line="223" selection-end-line="223" />
+                <state relative-caret-position="146">
+                  <caret line="299" column="45" lean-forward="true" selection-start-line="299" selection-start-column="45" selection-end-line="299" selection-end-column="45" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="e#4683#4684#0" expanded="true" />
+                    <element signature="e#4727#4728#0" expanded="true" />
+                    <element signature="e#10022#10023#0" expanded="true" />
+                    <element signature="e#10082#10083#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -87,8 +97,8 @@
           <file leaf-file-name="Space.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/hackett/model/Space.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="90" column="44" lean-forward="true" selection-start-line="90" selection-start-column="44" selection-end-line="90" selection-end-column="44" />
+                <state relative-caret-position="402">
+                  <caret line="92" column="23" lean-forward="true" selection-start-line="83" selection-start-column="8" selection-end-line="92" selection-end-column="23" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#1036#1037#0" expanded="true" />
@@ -138,6 +148,13 @@
       <find>println</find>
       <find>gamecontroller.print</find>
       <find>quit</find>
+      <find>this.difficulty =</find>
+      <find>(Font.DIALOG, Font.BOLD, 48)</find>
+      <find>font</find>
+      <find>lostgame</find>
+      <find>wongame</find>
+      <find>smiley</find>
+      <find>image</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -154,15 +171,16 @@
         <option value="$PROJECT_DIR$/src/hackett/model/Difficulty.java" />
         <option value="$PROJECT_DIR$/src/hackett/view/Board.java" />
         <option value="$PROJECT_DIR$/src/hackett/model/ModelManager.java" />
+        <option value="$PROJECT_DIR$/src/hackett/controller/GameController.java" />
         <option value="$PROJECT_DIR$/src/hackett/model/Space.java" />
         <option value="$PROJECT_DIR$/src/hackett/view/GuiHandler.java" />
-        <option value="$PROJECT_DIR$/src/hackett/controller/GameController.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
-    <option name="width" value="1119" />
+    <option name="x" value="51" />
+    <option name="y" value="22" />
+    <option name="width" value="1629" />
     <option name="height" value="971" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -179,6 +197,11 @@
             <path>
               <item name="Minesweeper" type="b2602c69:ProjectViewProjectNode" />
               <item name="final_project" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Minesweeper" type="b2602c69:ProjectViewProjectNode" />
+              <item name="final_project" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Minesweeper" type="b2602c69:ProjectViewProjectNode" />
@@ -239,6 +262,10 @@
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res" />
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -315,7 +342,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="23" width="1680" height="971" extended-state="6" />
+    <frame x="0" y="22" width="1680" height="971" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" />
@@ -326,12 +353,12 @@
       <window_info anchor="right" id="Capture Analysis" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30769232" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2742475" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.08035714" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.055357143" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" />
@@ -425,10 +452,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/bomb.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/hackett/model/ModelManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-753">
-          <caret line="37" column="38" lean-forward="true" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+        <state relative-caret-position="210">
+          <caret line="78" column="23" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
           <folding>
             <element signature="e#456#457#0" expanded="true" />
             <element signature="e#492#493#0" expanded="true" />
@@ -438,8 +468,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hackett/model/Space.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="90" column="44" lean-forward="true" selection-start-line="90" selection-start-column="44" selection-end-line="90" selection-end-column="44" />
+        <state relative-caret-position="402">
+          <caret line="92" column="23" lean-forward="true" selection-start-line="83" selection-start-column="8" selection-end-line="92" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1036#1037#0" expanded="true" />
@@ -464,10 +494,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hackett/view/GuiHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="223" lean-forward="true" selection-start-line="223" selection-end-line="223" />
+        <state relative-caret-position="146">
+          <caret line="299" column="45" lean-forward="true" selection-start-line="299" selection-start-column="45" selection-end-line="299" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4683#4684#0" expanded="true" />
+            <element signature="e#4727#4728#0" expanded="true" />
+            <element signature="e#10022#10023#0" expanded="true" />
+            <element signature="e#10082#10083#0" expanded="true" />
           </folding>
         </state>
       </provider>

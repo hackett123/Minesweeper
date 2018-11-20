@@ -4,11 +4,14 @@ import hackett.controller.GameController;
 import hackett.model.Difficulty;
 import hackett.model.Space;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class GuiHandler implements Runnable {
 
@@ -32,12 +35,16 @@ public class GuiHandler implements Runnable {
     private static final Dimension DIM_PANEL_STATUS = new Dimension (WIDTH / 8, HEIGHT / 8);
     private static final Dimension DIM_PANEL_OPTIONS = new Dimension (WIDTH / 8, HEIGHT / 8);
     private final Color COLOR_BACKGROUND = new Color(0x252f3f);
+    private final Color PINK_BACKGROUND = new Color(0xffcce3);
 
     /*
     GUI Component for frame. rest are declared locally.
      */
     private JFrame frame;
     private JPanel container, panelGame, panelStatus, panelOptions;
+    JRadioButton beginnerDifficulty, intermediateDifficulty, expertDifficulty;
+    private static JLabel timerLabel;
+    private static Timer timer;
 
     public static GuiHandler getInstance(GameController gameController) {
         if (instance == null) {
@@ -57,11 +64,12 @@ public class GuiHandler implements Runnable {
     private void startGame() {
 
         this.firstMove = true;
+        this.lostGame = false;
 
         frame.dispose();
         run();
 
-        this.difficulty = chooseDifficulty();
+        this.difficulty = getDifficulty();
         this.board = gameController.startGame(difficulty);
         switch (difficulty) {
             case BEGINNER :
@@ -81,10 +89,13 @@ public class GuiHandler implements Runnable {
                 break;
         }
         initPanelGameComps();
+        timer.restart();
         //this.gameController.printGame();
     }
 
     public void wonGame() {
+        timer.stop();
+
         JFrame frameWonGame = new JFrame(":)");
         JPanel containerWonGame = new JPanel();
         containerWonGame.setPreferredSize(new Dimension(500, 200));
@@ -93,10 +104,9 @@ public class GuiHandler implements Runnable {
         lostLabel.setForeground(Color.WHITE);
         lostLabel.setText("Way to go!");
         containerWonGame.add(lostLabel, BorderLayout.CENTER);
-        containerWonGame.setBackground(new Color(0xffcce3));
+        containerWonGame.setBackground(PINK_BACKGROUND);
         this.container.setVisible(true);
         frameWonGame.add(containerWonGame);
-        //frameLostGame.setPreferredSize(new Dimension(500, 500));
         frameWonGame.pack();
         frameWonGame.setVisible(true);
 
@@ -129,6 +139,7 @@ public class GuiHandler implements Runnable {
             loseGameMessage();
         }
         lostGame = true;
+        timer.stop();
     }
 
 
@@ -136,10 +147,16 @@ public class GuiHandler implements Runnable {
     Called once startGame button has been pressed. Create a menu w beginner, intermediate, expert. Once chosen,
     send output back to startGame within gameController.
      */
-    private Difficulty chooseDifficulty() {
-        //TODO : Implement.
-        return Difficulty.INTERMEDIATE;
+    private Difficulty getDifficulty() {
+        if (this.difficulty == null) {
+            this.difficulty = Difficulty.BEGINNER;
+        }
+        return this.difficulty;
     }
+    private void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
 
     /*
     revealSpace is called by the action listeners for our panelGame buttons. Calls upon gameController method to do
@@ -234,28 +251,88 @@ public class GuiHandler implements Runnable {
     }
 
     private void initPanelOptionComps() {
-        JButton startGame;
-
-        startGame = new JButton("START NEW GAME");
+        JButton startGame = new JButton("START NEW GAME");
         startGame.addActionListener(e -> startGame());
+
+        beginnerDifficulty = new JRadioButton();
+        intermediateDifficulty = new JRadioButton();
+        expertDifficulty = new JRadioButton();
+        JRadioButton[] radiobuttons = {beginnerDifficulty, intermediateDifficulty, expertDifficulty};
+
+        for (JRadioButton rb : radiobuttons) {
+            rb.setForeground((PINK_BACKGROUND));
+            rb.setFont(new Font(Font.DIALOG, Font.BOLD, 12));
+        }
+
+
+        beginnerDifficulty.setText("BEGINNER DIFFICULTY");
+        beginnerDifficulty.addActionListener(e -> {
+            setDifficulty(Difficulty.BEGINNER);
+            intermediateDifficulty.setSelected(false);
+            expertDifficulty.setSelected(false);
+        });
+
+        intermediateDifficulty.setText("INTERMEDIATE DIFFICULTY");
+        intermediateDifficulty.addActionListener(e -> {
+            setDifficulty(Difficulty.INTERMEDIATE);
+            beginnerDifficulty.setSelected(false);
+            expertDifficulty.setSelected(false);
+        });
+
+        expertDifficulty.setText("EXPERT DIFFICULTY");
+        expertDifficulty.addActionListener(e -> {
+            setDifficulty(Difficulty.EXPERT);
+            beginnerDifficulty.setSelected(false);
+            intermediateDifficulty.setSelected(false);
+        });
+
+
         panelOptions.add(startGame);
+        panelOptions.add(beginnerDifficulty);
+        panelOptions.add(intermediateDifficulty);
+        panelOptions.add(expertDifficulty);
         this.panelOptions.setVisible(true);
     }
 
     private void initPanelStatusComps() {
 
-        JTextField minesRemaining = new JTextField("" + NUM_MINES);
+        JTextField minesRemaining = new JTextField("MINES REMAINING : " + NUM_MINES);
         this.panelStatus.add(minesRemaining);
 
         //change to image later.
-        JLabel smiley = new JLabel("SMILEY");
+        JLabel smiley = new JLabel();
+        smiley.setPreferredSize(new Dimension(150, 100));
+
+
+        ImageIcon guiView = null;
+        try {
+            Image image = ImageIO.read(new File("res/110logo.png"));
+            image = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            guiView = new ImageIcon(image);
+
+        } catch (IOException ie) {
+            System.out.println("Image rendering error");
+        }
+
+        smiley.setIcon(guiView);
+
+
         this.panelStatus.add(smiley);
 
         //figure this out later
-        JTextField timer = new JTextField("TIMER GOES HERE");
-        this.panelStatus.add(timer);
-        this.panelStatus.add(timer);
+        timerLabel = new JLabel("Time: 0");
+        timerLabel.setForeground(PINK_BACKGROUND);
+        timerLabel.setFont(new Font(Font.DIALOG, Font.BOLD, 24));
+        timer = new Timer(1000, new ActionListener() {
+            int seconds = 0;
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timerLabel.setText("Time : " + seconds++);
+            }
+        });
+
+        this.panelStatus.add(timerLabel, 1, 2);
         this.panelStatus.setVisible(true);
     }
 
