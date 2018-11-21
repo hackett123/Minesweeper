@@ -1,0 +1,1 @@
+Run via the command line, the program has been packaged as a jar file. Syntax is "java -jar minesweeper.jar". Program comes with three difficulty modes, left click to reveal, right click to flag. Enjoy!

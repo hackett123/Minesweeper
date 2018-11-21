@@ -63,7 +63,7 @@ public class Space extends JButton {
 
     public void markFlagged() {
         this.isFlagged = true;
-        this.flag = makeImageIcon("/Users/Michael/Desktop/Penn/Fall 2018/TA/CIS110/final_project/res/penn_flag.png");
+        this.flag = makeImageIcon("/Users/Michael/Desktop/Penn/Fall 2018/TA/CIS110/final_project/src/res/penn_flag.png");
     }
     public void unFlag() {
         this.isFlagged = false;
@@ -150,7 +150,7 @@ public class Space extends JButton {
             this.setOpaque(true);
             if (this.isFlagged) {
                 if (this.flag == null) {
-                    this.flag = makeImageIcon("res/penn_flag.png");
+                    this.flag = makeImageIcon("src/res/penn_flag.png");
                 }
                 setIcon(this.flag);
                 this.setHorizontalAlignment(SwingConstants.CENTER);
@@ -167,7 +167,7 @@ public class Space extends JButton {
                 this.setText("" + this.neighborMines);
             } else if (this.neighborMines == -1) {
                 if (this.mine == null) {
-                    this.mine = makeImageIcon("res/bomb.jpg");
+                    this.mine = makeImageIcon("src/res/bomb.jpg");
                 }
                 this.setIcon(this.mine);
                 this.setHorizontalAlignment(SwingConstants.CENTER);

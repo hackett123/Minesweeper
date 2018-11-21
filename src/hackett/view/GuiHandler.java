@@ -345,7 +345,7 @@ public class GuiHandler implements Runnable {
 
         ImageIcon guiView = null;
         try {
-            Image image = ImageIO.read(new File("res/110logo.png"));
+            Image image = ImageIO.read(new File("src/res/110logo.png"));
             image = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             guiView = new ImageIcon(image);
 
